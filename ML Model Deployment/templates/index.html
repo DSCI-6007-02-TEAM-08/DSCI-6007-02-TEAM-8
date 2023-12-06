@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Flight Ticket Price Prediction</title>
+  <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Arimo' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Hind:300' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet' type='text/css'>
+
+  <style>
+    body {
+      background-image: url('your-image-url.jpg'); /* Replace 'your-image-url.jpg' with the path to your image */
+      background-size: cover;
+      background-position: center;
+      font-family: 'Arimo', sans-serif;
+      color: #fff; /* Set text color to white for better visibility on the background */
+    }
+
+    .login {
+      max-width: 400px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.7); /* Use rgba for background color with transparency */
+      border-radius: 10px;
+      margin-top: 50px;
+    }
+
+    .login input,
+    .login button {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 10px;
+      box-sizing: border-box;
+    }
+
+    .btn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="login">
+    <h1>Flight Ticket Price Prediction</h1>
+
+    <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict')}}" method="post">
+      <input type="text" name="Duration" placeholder="Duration" required="required" />
+      <input type="text" name="Total_Stops" placeholder="Total_Stops" required="required" />
+      <input type="text" name="Dep_Time_in_hours" placeholder="Dep_Time_in_hours" required="required" />
+      <input type="text" name="Dep_Time_in_minutes" placeholder="Dep_Time_in_minutes" required="required" />
+      <input type="text" name="Arrival_Time_in_hours" placeholder="Arrival_Time_in_hours" required="required" />
+      <input type="text" name="Arrival_Time_in_minutes" placeholder="Arrival_Time_in_minutes" required="required" />
+      <input type="text" name="Day" placeholder="Day" required="required" />
+      <input type="text" name="Month" placeholder="Month" required="required" />
+      <input type="text" name="Air India" placeholder="Air India" required="required" />
+      <input type="text" name="GoAir" placeholder="GoAir" required="required" />
+      <input type="text" name="IndiGo" placeholder="IndiGo" required="required" />
+      <input type="text" name="Jet Airways" placeholder="Jet Airways" required="required" />
+      <input type="text" name="Jet Airways Business" placeholder="Jet Airways Business" required="required" />
+      <input type="text" name="Multiple carriers" placeholder="Multiple carriers" required="required" />
+      <input type="text" name="Multiple carriers Premium economy" placeholder="Multiple carriers Premium economy" required="required" />
+      <input type="text" name="SpiceJet" placeholder="SpiceJet" required="required" />
+      <input type="text" name="Trujet" placeholder="Trujet" required="required" />
+      <input type="text" name="Vistara" placeholder="Vistara" required="required" />
+      <input type="text" name="Vistara Premium economy" placeholder="Vistara Premium economy" required="required" />
+      <input type="text" name="Source_Chennai" placeholder="Source_Chennai" required="required" />
+      <input type="text" name="Source_Delhi" placeholder="Source_Delhi" required="required" />
+      <input type="text" name="Source_Kolkata" placeholder="Source_Kolkata" required="required" />
+      <input type="text" name="Source_Mumbai" placeholder="Source_Mumbai" required="required" />
+      <input type="text" name="Destination_Cochin" placeholder="Destination_Cochin" required="required" />
+      <input type="text" name="Destination_Delhi" placeholder="Destination_Delhi" required="required" />
+      <input type="text" name="Destination_Hyderabad" placeholder="Destination_Hyderabad" required="required" />
+      <input type="text" name="Destination_Kolkata" placeholder="Destination_Kolkata" required="required" />
+      <input type="text" name="Destination_New Delhi" placeholder="Destination_New Delhi" required="required" />
+      <input type="text" name="Route_1" placeholder="Route_1" required="required" />
+      <input type="text" name="Route_2" placeholder="Route_2" required="required" />
+      <input type="text" name="Route_3" placeholder="Route_3" required="required" />
+      <input type="text" name="Route_4" placeholder="Route_4" required="required" />
+      <input type="text" name="Route_5" placeholder="Route_5" required="required" />
+
+
+      <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
+    </form>
+
+    <br>
+    <br>
+    {{ prediction_text }}
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,331 @@
+A SUMO Framework for Deep Reinforcement
+Learning Experiments Solving Electric Vehicle
+Charging Dispatching Problem
+
+problem: EV - usage increase - charging demand - time taking - limited faclities for charging
+
+solution - aim to improve the efficiency of
+the EV charging station usage and save time for EV users in
+the further work, therefore design an EV navigation system on
+the basis of the traffic simulator SUMO. with minimum
+travel and queuing time.
+
+challenge -  to dispatch EVs
+in the dynamic traffic environment and coordinate interaction
+among agents
+
+research - Deep Reinforcement Learning (DRL) EV dispatching algorithms,
+a efficient simulation environment is necessary to ensure the
+success. As simulator Simulation Urban Mobility (SUMO) is
+one of the most widely used open-source simulator, it has great
+significance to create the environment that satisfies research
+requirements on SUMO
+
+Intelligent Traffic System (ITS)
+
+A novel EV navigation environment is built using SUMO.
+• The environment is evaluated as suitable for applying
+different RL methods.
+
+RL is a useful tool in the ITS design
+
+RL Agent - env interaction - provide  solution that most
+possibly leads to the greatest reward
+
+environment would provide the current state of
+the object to the RL agent. On the basis of the current state
+information, the agent calculates the answer that will lead to
+the most immediate reward and the greatest potential reward in
+the future. Given the best solution, the agent interacts with the
+environment, getting the reward of this action and the new state
+of the controlled object. From numerous times of this cycle,
+taking action and retrieving feedback, the RL agent learns from
+multiple times of attempts and become able to provide the
+most reliable answer on the basis of the policy it concludes.
+The requirement of hundreds or thousand of attempts and
+learning from the experience makes RL method a data-driven
+method that iteratively computes the most promising but
+approximate solution. Therefore, RL method is also regarded
+as approximate dynamic programming.
+The traditional RL method requires detailed information
+about the controlled object, which hinders the application
+of RL in many real-life situations. The advance of the
+model-free RL algorithm broke this barrier and made RL
+more popular and effective. Among different model-free RL
+algorithms, Q-learning method and State-action-rewardstate-action SARSA
+are two widely used algorithms.
+
+ DRL - enables RL to deal with controlled objects
+with high-dimensional state space. In the high-dimensional
+and complex system control scenarios, DRL methods with
+DL network acting as the action decision center, are proved
+to be more effective than traditional RL algorithms because
+traditional RL methods with linear function approximation
+methods cannot effectively handle the large state space and
+the complex system.
+
+ DRL methods, Deep Q
+Network (DQN) and Dueling Double Deep Q Network (Dueling DDQN) 
+are two widely used methods. Nowadays, there
+are multiple applications of DRL in the ITS. The most popular
+application is DRL-based traffic signal control.
+
+As a data-driven method, RL experiment requires a big
+amount of data. Nowadays, many RL experiments are conducted with real-world data. Also, traffic simulation software
+could be alternative when real-world data is inaccessible[15].
+SUMO
+
+ DRL models
+are less scalable since the decision space is large and the
+computation cost of the DRL method is tremendous. For realworld application, multi-agent control is preferred. 
+As for vehicle dispatching and navigation, there are multiple works about vehicle dispatching using RL methods,
+including taxi dispatching and ambulance dispatching. In these works, the traffic network is regarded as non-stationary and
+stochastic, being composed of different road conditions[18].
+Generally, there are two main methods for vehicle dispatching,
+which include route planning and Traffic Assignment Problem
+(TAP). 
+
+Route planning, which could also be regarded as
+route choice, realizes the vehicle dispatching by selecting
+a given Origin-destination (OD) pair from a set of feasible
+routes. When applying the route planning method, the action
+given by the agent is only reviewed after the trip is finished.
+
+For TAP, the RL agent needs to make a decision on the next
+link on the basis of state information, and rewards for each
+decision are given after every agent environment interaction.
+
+The majority of RL-based methods for vehicle dispatching
+utilize two types of information as object states, which include the vehicle state and the system state. Vehicle state
+could be different information about the vehicle such as the
+location, travel time, remaining capacity for taxi or battery
+level for EV. As for system information, states could
+be the location of customers for taxi dispatching systems,
+locations of different EV charging stations for EV navigation
+systems or traffic flows in different parts of the traffic network.
+
+in many works, vehicle dispatching or vehicle
+routing focus on only 1 vehicle using the single agent RL method. 
+In the case of the vehicle fleets, multi-agent RL
+methods should be applied, controlling multiple vehicles simultaneously. 
+In this situation, the RL agent should be able
+to realize the global optimization because the action on an
+object may affect other objects nearby and the optimization
+of a vehicle may not lead to the greatest reward for the
+whole system.
+
+with the purpose of maximizing the usage of different EV charging stations, providing
+users with more useful information and minimizing the EV
+queuing and charging time, we decide to design the DRLbased charging navigation system with a suitable simulation
+environment. The navigation system is an attempt to build an
+environment for RL experiments using the traffic simulator
+SUMO. In the traffic area, SUMO is preferred by many
+researchers for its diverse functions and realistic simulation.
+Numerous works are implemented using SUMO. For example,
+SUMO is widely used to simulate different traffic light control
+schemes.
+
+
+
+III. METHODOLOGY
+
+For EV navigation system construction, the main purpose
+is to build an environment for the RL experiment.
+First, it should be an
+environment for EVs, which means that there are multiple EVs
+running in the network together with some charging stations.
+Second, the environment should be similar to the real-world
+situation with different traffic conditions.
+Third, the system should be able to retrieve vehicle information and execute the
+deployment. In general, the navigation system together with
+different EV deployment strategies aim to help EV users get
+charged with minimum travel time and queuing time.
+
+A. Problem Statement
+In this paper, we are considering an environment in which
+several EV charging stations are geographically distributed in
+the traffic network and a minimum distance is ensured between
+stations. Inside the traffic network, traditional vehicles and
+EVs are travelling together with random OD pairs but they
+imitate and follow a driving pattern of real-world vehicles.
+Moreover, EVs with charging demand will select a nearby
+charging station with a minimum distance. In this scenario,
+there will be busy road sections and peak travel times where
+congestion possibly exists and there will be queuing in charging stations that are near busy road sections at peak travelling
+time.
+
+We consider a single target EV that is driving with a
+random OD pair and under the guidance of a modern EV
+charging navigation system.
+
+In the navigation system, there
+is a navigation center obtaining information about the target
+EV such as real-time longitude, latitude or speed which are
+sent by sensors on the target EV. At the same time, sensors
+deployed all over the traffic network send the traffic situation
+information to the navigation center from different parts of the
+traffic network. Moreover, charging and queuing conditions
+could also be known by the navigation cente
+
+In the network, we split the time into a sequence of time
+slots which could be represented as T = [t0,t1,··· ,tl
+] where l is the considered total time length and the size of all time
+slots are fixed.
+We define the state of the target
+vehicle at time ti
+is Si = [si^1,si^2,...,si^k] where k refers to the total number of different states.
+. Charging station set is denoted
+by C = [c1, c2,··· , cm] where m is the total number of charging
+stations, and the action taken at time ti
+is represented as ai.
+
+our purpose is to build
+an EV charging navigation system that can find out a proper
+action ai to minimize the total travelling time for EV drivers
+given the current states Si of the target EV using the function:
+ai = f(Si)
+
+
+B. EV Charging Navigation System Design
+Four methods are chosen for action determination including random dispatching,
+greedy dispatching, DQN and Dueling DQN.
+The random
+dispatching scheme provides a random selection of destination
+charging station from the charging station pool. The answer
+is given randomly without any consideration of current states
+and the random action is given only at the time when the target
+vehicle enters the traffic network because a series of random
+guidance will lead to meaningless driving inside the network.
+The action determination at time ti for the random dispatching
+scheme can be represented as: 
+
+ai = Random(C) 
+
+
+As for the greedy dispatching scheme, the navigation center
+only guides the target vehicle to the closest charging station
+on the basis of the current target EV location. This kind of
+control scheme regards the journey with the smallest distance
+as the most rewarding solution but ignores the road condition
+and availability of each charging station. Action determination
+at time ti for the greedy dispatching scheme can be represented
+as:
+
+ai = argmin a D(i) 
+
+The first two navigation schemes only take one kind of
+information or even no information into consideration, neglecting the bigger picture of the road network. Even though
+in some scenarios, random dispatching or greedy dispatching
+schemes work, they cannot handle most of real-world situations.
+
+Traditional RL methods are designed on the basis of the
+MDP framework, where the agent follows a policy π(s) to
+determine actions. Sufficient training enables the RL agent
+to find out the optimized policy which leads to the greatest
+short-term or long-term reward R. 
+
+Q-learning is an off-policy
+temporal-difference learning approach. It can obtain the maximum long-term discount reward Q(S,A), where A refers to
+the action space. The policy update of the Q-learning function
+is expressed as:
+Q*(s,a) <- Q(s,a) + alpha[ r + gamma * max a* Q(s,a*) - Q(s,a)]
+
+where α and γ refer to the learning rate and the discount
+factor respectively. When the state space and action space
+become too large, which is common in real-world scenarios,
+the pure mathematical computation cannot handle the large
+state and action space optimized policy solving. With the
+adoption of the DL network approximating the Q function,
+DQN is able to deal with large state space while ensuring the
+model performance.
+
+During the training, we deploy the target EV into the
+simulation environment. DQN agent observes the states of
+the target at every time slot, determining actions for the
+target. After the action execution, the environment reacts with
+immediate reward. In this study, we define all the immediate
+rewards to be 0 until the target EV stops and starts to charge. 
+
+The final reward is defined as: R = 7200/Ttravel
+
+where Ttravel refers to the total travelling time of the target
+vehicle from departure to the final EV charging. A simulation
+cycle is one day in the simulation environment and this cycle
+repeats to enhance the stability of DQN training. 
+
+Even though DQN is proved to be powerful for EV navigation, it suffers 
+from a problem of Q value overestimation. In DQN, the predicted Q-value is calculated as 
+y t DQN = R(t+1) + γ max a Q(S(t+1),a;θt-) which always selects the action
+that leads to the maximum predicted Q-value. To solve this
+problem, DDQN is designed. Different from DQN, DDQN
+uses an action network to decide actions. The estimated Qvalue in DDQN is represented as:
+
+y t DQN = R(t+1) +γQ(St+1, argmax a Q(St+1,a;θt);θ't) 
+
+
+Further, in DQN network or DDQN network, a DL network
+calculates the current Q-value. The final output is generated
+by a fully connected layer. However, in the Dueling DDQN
+network, the Q function is separated into two parts which are
+the state function and the advantage function:
+Q(s,a;θ,α,β) = V(s,θ,β) +A(s,a;θ,α) 
+where V(s,θ,β) is the state function and A(s,a;θ,α) is the
+advantage function. θ is a parameter in the convolutional layer,
+and α and β are fully connected layer parameters of the state
+function and the advantage function respectively. This enables
+the network to have a better estimation of the Q-value.
+
+
+SUMO is an open source, microscopic and multimodal
+traffic simulation software. It can simulate a complex traffic
+network with all the vehicle in the network travelling with
+their own defined trip. The simple user interface allows users
+to master the use of this software easily and the Traci interface
+enables users to realize a more complex traffic simulation
+with Python.
+
+the experiment can be summarized as follows:
+An episode of simulation begins at 00:00 in the morning
+A target vehicle departs at a random simulation time and seeks a charging station
+During the simulation, the target vehicle is guided by a smart agent
+The target EV stops when it begins to charge and the episode does not end until 23:59.
+This cycle repeats 50 times.
+
+Evaluation:
+To evaluate the performance of each action determination
+scheme, we use the total travel time in the simulation 
+environment of the target EV as our evaluation standard.
+For the training of DQN and Dueling DDQN network, both of the networks are optimized by Adam optimizer.
+Learning
+rates for both of the networks are set to be 0.01 and the
+training batch size is 32.
+
+To better evaluate the system performance, we deploy 3
+different numbers of EVs into the simulation environment for
+each experiment while the number of traditional vehicles is
+fixed. 
+All of the vehicle navigation schemes are evaluated in the environment with 200, 300 and 400 EVs respectively.
+ 
+the DQN method and Dueling
+DDQN method have a better performance in EV navigation
+with less total travelling time since RL-based methods take
+more information into consideration and they learn a better
+solution in different road conditions through numerous attempts. Greedy dispatching which requires a longer time for
+station navigation compared to RL-based methods performs
+better than random charging station selection since the random
+selection may guide the vehicle to a distant station which
+wastes a large amount of time.
+
+The purpose of the navigation is to minimize
+the total travelling time from the vehicle departure to battery
+charging. In the experiment, DQN and Dueling DDQN are
+proved to be effective in the SUMO environment which means
+that the system we build is a useful environment for future RL
+experiments.
+In the future, the EV navigation environment can
+be enriched by more real-world situations including different
+weather, traffic jam, accidents and pedestrian. We will try
+to combine the traffic forecasting model with the navigation
+system to improve the ability of EV navigation and adopt
+multi-agent DRL models to realize multiple vehicle navigation
+and global optimization for the whole traffic network.
